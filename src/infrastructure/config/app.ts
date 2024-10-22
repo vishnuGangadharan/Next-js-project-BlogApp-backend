@@ -8,7 +8,6 @@ import http from 'http'
 import userRoutes from '../routes/userRoutes'
 
 
-
 const app = express()
 dotenv.config();
 export const httpServer = http.createServer(app)

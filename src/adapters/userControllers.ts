@@ -13,11 +13,22 @@ class UserController {
         try {
             console.log('loginpage');
             console.log(req.body);
-            
-          
+            const { email, password} = req.body;
+            const response = await this.userUseCase.login(email, password)
+            if(response){
+                if(response.status ==200){
+                    res.cookie('authToken',response.data.token , {
+                        httpOnly:true,
+                        secure: process.env.NODE_ENV === 'production',
+                        maxAge: 604800000,
+                    })
+                }
+
+                res.status(response?.status).json(response?.data)
+            }
         } catch (error) {
             console.log(error);
-            next(error); // Pass the error to the next middleware
+            next(error); 
         }
     }
 
