@@ -1,4 +1,4 @@
-import UserData from "../domain/userInterface";
+import UserData, { postData } from "../domain/userInterface";
 import UserRepository from "../infrastructure/repository/userRepository";
 import EncryptPassword from "../infrastructure/services/bcryptPassword";
 import jwtService from "../infrastructure/services/generateToken";
@@ -111,6 +111,98 @@ class UserUseCase{
         }
     }
 
+
+    async addPost(data : postData){
+        try {
+            const savePost = this.userRepository.savePost(data)
+            if(savePost && savePost !== null){
+                return {
+                    status: 200,
+                    data:{
+                        message: 'post added successfully',
+                        data : data
+                    }
+                }
+            }else{
+                return {
+                    status: 400,
+                    data:{
+                        message: 'some error in adding post',
+                        data : data
+                    }
+                }
+            }
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+
+    async getPosts(){
+        try {
+            const posts = await this.userRepository.getPosts()
+            if(posts){
+                return {
+                    status: 200,
+                    data:posts
+                }
+            }
+        } catch (error) {
+            
+        }
+    }
+
+    async deletePost(postId : string) {
+        try {
+            const deletePost = await this.userRepository.deleteByPostId(postId)
+
+            if(deletePost){
+                return{
+                    status: 200,
+                    data :{
+                        message: 'post deleted',
+                    }
+                }
+            }
+        } catch (error) {
+            
+        }
+    }
+
+
+    async postDetails(postId: string){
+        try {
+            const postDetails = await  this.userRepository.postDetails(postId)
+            if(postDetails){
+                return {
+                    status: 200,
+                    data :{
+                        data: postDetails
+                    }
+                }
+            }
+        } catch (error) {
+            
+        }
+    }
+
+    async upadatePost(postId: string , changes: postData){
+        try {
+            const updatePost = await this.userRepository.updatePost(postId,changes)
+            if(updatePost){
+                return {
+                    status: 200,
+                    data:{
+                        message:'post updated',
+                        data: updatePost
+                    }
+                }
+            }
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
 
 }
 

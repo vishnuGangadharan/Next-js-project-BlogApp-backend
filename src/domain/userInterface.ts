@@ -1,3 +1,6 @@
+import { Document, Schema } from "mongoose";
+
+
 export default interface UserData {
     _id:string
     name: string
@@ -6,6 +9,16 @@ export default interface UserData {
     password: string
     profilePicture: string
     isBlocked: boolean;
-    isAdmin: boolean
+    isAdmin: boolean;
+    
+}
+
+export interface postData {
+    heading : string;
+    content : string;
+    topics  : string[];
+    fileUrl : string | null;
+    Category: string ;
+    userId:  Schema.Types.ObjectId; 
 
 }
